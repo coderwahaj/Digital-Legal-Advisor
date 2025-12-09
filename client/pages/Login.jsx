@@ -5,14 +5,11 @@ import Header from "@/components/Header";
 import ForgotPasswordModal from "@/components/ForgotPasswordModal";
 
 
-
-
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
- const [showForgotModal, setShowForgotModal] = useState(false);
+  const [showForgotModal, setShowForgotModal] = useState(false);
 
 
   const handleSubmit = (e) => {

@@ -82,7 +82,7 @@ const LandingPage = () => {
             {/* Frame 1 - Citizens */}
             <div className="w-full max-w-[300px] min-h-[234px] bg-white rounded-[50px] p-8 flex flex-col items-center">
               <h3
-                className="text-[20px] md:text-[24px] font-bold leading-tight text-[#5D866C] text-center mb-4"
+                className="text-[20px] md:text-[22px] font-bold leading-tight text-[#5D866C] text-center mb-4"
                 style={{ fontFamily: "Roboto Flex" }}
               >
                 Citizens
@@ -99,7 +99,7 @@ const LandingPage = () => {
             {/* Frame 2 - Law Students */}
             <div className="w-full max-w-[300px] min-h-[234px] bg-white rounded-[50px] p-8 flex flex-col items-center">
               <h3
-                className="text-[20px] md:text-[24px] font-bold leading-tight text-[#5D866C] text-center mb-4"
+                className="text-[20px] md:text-[22px] font-bold leading-tight text-[#5D866C] text-center mb-4"
                 style={{ fontFamily: "Roboto Flex" }}
               >
                 Law Students
@@ -116,7 +116,7 @@ const LandingPage = () => {
             {/* Frame 3 - Legal Professionals */}
             <div className="w-full max-w-[300px] min-h-[234px] bg-white rounded-[50px] p-8 flex flex-col items-center">
               <h3
-                className="text-[20px] md:text-[24px] font-bold leading-tight text-[#5D866C] text-center mb-4"
+                className="text-[20px] md:text-[22px] font-bold leading-tight text-[#5D866C] text-center mb-4"
                 style={{ fontFamily: "Roboto Flex" }}
               >
                 Legal Professionals
@@ -133,7 +133,7 @@ const LandingPage = () => {
             {/* Frame 4 - Law Firms */}
             <div className="w-full max-w-[300px] min-h-[228px] bg-white rounded-[50px] p-8 flex flex-col items-center">
               <h3
-                className="text-[20px] md:text-[24px] font-bold leading-tight text-[#5D866C] text-center mb-4"
+                className="text-[20px] md:text-[22px] font-bold leading-tight text-[#5D866C] text-center mb-4"
                 style={{ fontFamily: "Roboto Flex" }}
               >
                 Law Firms
