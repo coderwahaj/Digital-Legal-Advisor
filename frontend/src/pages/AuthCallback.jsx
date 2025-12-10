@@ -3,16 +3,16 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { setTokens } from '@/utils/tokenManager';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import { authApi } from '@/api/authApi';
 
 const AuthCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const hasProcessed = useRef(false); // ← Prevent double execution
+  const hasProcessed = useRef(false);
 
   useEffect(() => {
-    const handleCallback = () => {
-      // ← PREVENT DOUBLE REQUEST
+    const handleCallback = async () => {
       if (hasProcessed.current) return;
       hasProcessed.current = true;
 
@@ -23,7 +23,7 @@ const AuthCallback = () => {
       if (error) {
         toast({
           variant: 'destructive',
-          title: 'Authentication Failed',
+          title:  'Authentication Failed',
           description: error. replace(/_/g, ' '),
         });
         navigate('/login');
@@ -34,13 +34,26 @@ const AuthCallback = () => {
         // Store tokens
         setTokens(token, refreshToken);
 
-        toast({
-          title: 'Success',
-          description: 'Logged in successfully with Google!',
-        });
+        // Get user info to determine redirect
+        try {
+          const userResponse = await authApi.getCurrentUser();
+          const user = userResponse.data. user;
 
-        // Redirect to platform
-        navigate('/platform');
+          toast({
+            title: 'Success',
+            description: 'Logged in successfully with Google!',
+          });
+
+          // Redirect based on role
+          if (user?.role === 'admin') {
+            navigate('/admin');
+          } else {
+            navigate('/platform');
+          }
+        } catch (err) {
+          // Fallback to platform if can't get user info
+          navigate('/platform');
+        }
       } else {
         toast({
           variant: 'destructive',
@@ -52,7 +65,7 @@ const AuthCallback = () => {
     };
 
     handleCallback();
-  }, []); // ← Empty dependency array + useRef
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">

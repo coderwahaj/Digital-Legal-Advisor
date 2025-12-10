@@ -37,8 +37,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation
-    if (formData.password !== formData.confirmPassword) {
+    if (password !== confirmPassword) {
       toast({
         variant: "destructive",
         title: "Validation Error",
@@ -47,11 +46,11 @@ const SignUp = () => {
       return;
     }
 
-    if (formData.password.length < 6) {
+    if (password.length < 6) {
       toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description:  "Password must be at least 6 characters long",
+        variant:  "destructive",
+        title:  "Validation Error",
+        description: "Password must be at least 6 characters long",
       });
       return;
     }
@@ -59,24 +58,29 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      // Split full name into firstName and lastName
-      const nameParts = formData.firstName. trim().split(' ');
+      const nameParts = name.trim().split(' ');
       const firstName = nameParts[0] || '';
-      const lastName = nameParts. slice(1).join(' ') || formData.lastName || nameParts[0];
+      const lastName = nameParts.slice(1).join(' ') || nameParts[0];
 
       const result = await register({
         firstName,
         lastName,
-        email: formData.email,
-        password: formData. password,
+        email,
+        password,
       });
 
       if (result.success) {
         toast({
           title: "Success",
-          description: "Account created successfully! Please check your email to verify your account.",
+          description: "Account created successfully!",
         });
-        navigate('/platform');
+        
+        // Redirect based on user role
+        if (result.user?.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/platform');
+        }
       } else {
         toast({
           variant: "destructive",

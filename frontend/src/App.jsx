@@ -27,6 +27,7 @@ import EmailVerification from "./pages/EmailVerification";
 // User Pages
 import Platform from "./pages/Platform";
 import DocumentSummarizer from "./pages/DocumentSummarizer";
+import LegalPrecedents from "./pages/LegalPrecedents";
 import Profile from "./pages/Profile";
 
 // 404
@@ -53,11 +54,11 @@ function App() {
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/verify-email" element={<EmailVerification />} />
 
-              {/* Protected Routes - All Authenticated Users */}
+              {/* Protected Routes - Regular Users (admins redirected to /admin) */}
               <Route
                 path="/platform"
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute allowAdminAccess={false}>
                     <Platform />
                   </ProtectedRoute>
                 }
@@ -65,8 +66,16 @@ function App() {
               <Route
                 path="/document-summarizer"
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute allowAdminAccess={false}>
                     <DocumentSummarizer />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/legal-precedents"
+                element={
+                  <ProtectedRoute allowAdminAccess={false}>
+                    <LegalPrecedents />
                   </ProtectedRoute>
                 }
               />
@@ -120,6 +129,7 @@ function App() {
                   </RoleBasedRoute>
                 }
               />
+
               {/* 404 */}
               <Route path="*" element={<NotFound />} />
             </Routes>
