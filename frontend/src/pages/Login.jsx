@@ -29,13 +29,19 @@ const Login = () => {
 
     try {
       const result = await login(email, password);
-      
+
       if (result.success) {
         toast({
           title: "Success",
-          description:  "Logged in successfully!",
+          description: "Logged in successfully! ",
         });
-        navigate('/platform');
+        
+        // Redirect based on user role
+        if (result.user?. role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/platform');
+        }
       } else {
         toast({
           variant: "destructive",

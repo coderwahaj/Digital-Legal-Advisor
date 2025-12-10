@@ -1,23 +1,16 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { User, LogOut, Menu, X } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import PlatformHeader from '@/components/shared/PlatformHeader';
 import PlatformSidebar from '@/components/shared/PlatformSidebar';
 import ChatHeader from '@/components/chat/ChatHeader';
 import ChatMessages from '@/components/chat/ChatMessages';
 import ChatInput from '@/components/chat/ChatInput';
 
 const Platform = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/');
-  };
 
   const handleSendMessage = async (content) => {
     // Add user message
@@ -25,7 +18,7 @@ const Platform = () => {
       id: `user-${Date.now()}`,
       type: 'user',
       content,
-      timestamp:  new Date()
+      timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -62,57 +55,8 @@ const Platform = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
-      {/* Header - SAME AS DOCUMENT SUMMARIZER */}
-      <header className="bg-[#29473E] h-20 lg:h-28 flex items-center justify-between px-4 lg: px-16 border-b-2 border-black flex-shrink-0">
-        {/* Logo */}
-        <div className="flex-1 flex items-center">
-          <img
-            src="/logo.png"
-            alt="Digital Legal Advisor"
-            className="h-16 lg:h-24 w-auto object-contain"
-            onError={(e) => {
-              e.target.style.display = 'none';
-            }}
-          />
-        </div>
-
-        {/* User Actions */}
-        <div className="flex items-center gap-4 lg:gap-10">
-          {/* User Info */}
-          <button className="hidden md:flex items-center gap-2 lg:gap-3 px-3 lg:px-6 py-2 lg: py-3 rounded-lg bg-transparent hover:bg-white hover:bg-opacity-10 transition-colors">
-            <User size={24} className="text-gray-100 lg:w-7 lg:h-7" strokeWidth={1.5} />
-            <span 
-              className="text-gray-100 font-semibold text-sm lg:text-base"
-              style={{ fontFamily: 'Noto Sans' }}
-            >
-              {user?.firstName || 'User'}
-            </span>
-          </button>
-
-          {/* Logout Button */}
-          <button
-            onClick={handleLogout}
-            className="hidden md:flex items-center gap-2 lg:gap-3 px-3 lg:px-6 py-2 lg: py-3 rounded-lg border-2 border-gray-100 bg-transparent hover:bg-white hover:bg-opacity-10 transition-colors"
-          >
-            <LogOut size={24} className="text-gray-100 lg:w-7 lg:h-7" strokeWidth={1.5} />
-            <span 
-              className="text-gray-100 font-normal text-sm lg:text-base"
-              style={{ fontFamily:  'Noto Sans' }}
-            >
-              Log Out
-            </span>
-          </button>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setSidebarOpen(! sidebarOpen)}
-            className="md:hidden text-white p-2"
-            aria-label="Toggle menu"
-          >
-            {sidebarOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-      </header>
+      {/* Header */}
+      <PlatformHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar - Mobile Overlay */}

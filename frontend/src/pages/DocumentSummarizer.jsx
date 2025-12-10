@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { User, LogOut, Menu, X } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
 import { useDocumentSummarizer } from '@/hooks/useDocumentSummarizer';
+import PlatformHeader from '@/components/shared/PlatformHeader';
 import PlatformSidebar from '@/components/shared/PlatformSidebar';
 import SummarizerHeader from '@/components/summarizer/SummarizerHeader';
 import UploadArea from '@/components/summarizer/UploadArea';
@@ -10,15 +8,9 @@ import ProcessingStatus from '@/components/summarizer/ProcessingStatus';
 import SummaryDisplay from '@/components/summarizer/SummaryDisplay';
 
 const DocumentSummarizer = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const { isProcessing, summary, uploadedFile, uploadDocument, clearSummary } = useDocumentSummarizer();
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/');
-  };
 
   const handleFileUpload = (file) => {
     clearSummary();
@@ -26,7 +18,7 @@ const DocumentSummarizer = () => {
   };
 
   const handleFeedback = (type) => {
-    console.log(`Feedback:  ${type}`);
+    console.log(`Feedback: ${type}`);
     // TODO: Send feedback to backend
   };
 
@@ -38,58 +30,7 @@ const DocumentSummarizer = () => {
   return (
     <div className="flex flex-col h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-[#29473E] h-20 lg:h-28 flex items-center justify-between px-4 lg:px-16 border-b-2 border-black flex-shrink-0">
-        {/* Logo */}
-        <div className="flex-1 flex items-center">
-          <img
-            src="/logo.png"
-            alt="Digital Legal Advisor"
-            className="h-16 lg:h-24 w-auto object-contain"
-            onError={(e) => {
-              e.target.style.display = 'none';
-              const parent = e.target.parentElement;
-              parent.innerHTML = '<div class="text-white text-2xl font-bold">⚖️ DLA</div>';
-            }}
-          />
-        </div>
-
-        {/* User Actions */}
-        <div className="flex items-center gap-4 lg:gap-10">
-          {/* User Info */}
-          <button className="hidden md:flex items-center gap-2 lg:gap-3 px-3 lg:px-6 py-2 lg:py-3 rounded-lg bg-transparent hover:bg-white hover:bg-opacity-10 transition-colors">
-            <User size={24} className="text-gray-100 lg:w-7 lg:h-7" strokeWidth={1.5} />
-            <span 
-              className="text-gray-100 font-semibold text-sm lg:text-base"
-              style={{ fontFamily: 'Noto Sans' }}
-            >
-              {user?.firstName || 'User'}
-            </span>
-          </button>
-
-          {/* Logout Button */}
-          <button
-            onClick={handleLogout}
-            className="hidden md:flex items-center gap-2 lg:gap-3 px-3 lg:px-6 py-2 lg:py-3 rounded-lg border-2 border-gray-100 bg-transparent hover:bg-white hover:bg-opacity-10 transition-colors"
-          >
-            <LogOut size={24} className="text-gray-100 lg:w-7 lg:h-7" strokeWidth={1.5} />
-            <span 
-              className="text-gray-100 font-normal text-sm lg:text-base"
-              style={{ fontFamily:  'Noto Sans' }}
-            >
-              Log Out
-            </span>
-          </button>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="md:hidden text-white p-2"
-            aria-label="Toggle menu"
-          >
-            {sidebarOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-      </header>
+      <PlatformHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar - Mobile Overlay */}
@@ -131,7 +72,7 @@ const DocumentSummarizer = () => {
             />
           )}
 
-          {!isProcessing && ! summary && (
+          {! isProcessing && ! summary && (
             <div className="flex-1 flex items-center justify-center p-6">
               <div className="text-center">
                 <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -143,7 +84,7 @@ const DocumentSummarizer = () => {
                     className="text-gray-400"
                   >
                     <path
-                      d="M33. 3334 6.25H22.9167V43.75H33.3334V6.25Z"
+                      d="M33.3334 6.25H22.9167V43.75H33.3334V6.25Z"
                       stroke="currentColor"
                       strokeWidth="2"
                       strokeLinejoin="round"
@@ -169,7 +110,7 @@ const DocumentSummarizer = () => {
                   Upload a Document
                 </h2>
                 <p 
-                  className="text-gray-600 text-sm lg: text-base"
+                  className="text-gray-600 text-sm lg:text-base"
                   style={{ fontFamily:  'Noto Sans' }}
                 >
                   Supported formats: PDF, DOC, DOCX, TXT
