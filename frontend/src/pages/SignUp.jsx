@@ -317,7 +317,7 @@ const SignUp = () => {
               {/* SignUp Button */}
               <button
                 type="submit"
-                className="w-full lg:w-[95%] bg-[#29473E] text-white py-2 rounded-lg text-base font-medium hover:bg-[#1f3630] hover: shadow-lg transition-all duration-300 mt-3 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full lg:w-[95%] bg-[#29473E] text-white py-1.5 rounded-lg text-base font-medium hover:bg-[#1f3630] hover: shadow-lg transition-all duration-300 mt-3 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 style={{ fontFamily: "Noto Sans" }}
                 disabled={isLoading}
               >
@@ -327,7 +327,7 @@ const SignUp = () => {
             </form>
 
             {/* Divider Line with OR */}
-            <div className="flex items-center my-3 w-full lg:w-[95%]">
+            <div className="flex items-center my-2 w-full lg:w-[95%]">
               <div className="flex-1 border-t-2 border-gray-300"></div>
               <span className="px-3 text-gray-500 text-xs font-medium">OR</span>
               <div className="flex-1 border-t-2 border-gray-300"></div>
@@ -336,7 +336,7 @@ const SignUp = () => {
             {/* Continue with Google */}
             <button
               onClick={handleGoogleSignUp}
-              className="w-full lg: w-[95%] bg-white border-2 border-gray-800 py-1.5 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-all flex items-center justify-center gap-3 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-[95%] lg: w-[95%] bg-white border-2 border-gray-800 py-1.5 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-all flex items-center justify-center gap-3 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ fontFamily: "Inter" }}
               disabled={isLoading}
             >
@@ -349,7 +349,7 @@ const SignUp = () => {
             </button>
 
             {/* Login Link */}
-            <p className="text-center text-sm text-gray-600 mt-4">
+            <p className="text-center text-sm text-gray-600 mt-2">
               Already have an account? {' '}
               <Link 
                 to="/login" 
