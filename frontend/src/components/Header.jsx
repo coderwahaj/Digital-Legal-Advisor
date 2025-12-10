@@ -53,7 +53,7 @@ const Header = () => {
           </Link>
           <Link
             to="/platform"
-            className="text-white text-[20px] xl: text-[24px] hover: opacity-80 transition-opacity whitespace-nowrap"
+            className="text-white text-[20px] xl:text-[24px] hover: opacity-80 transition-opacity whitespace-nowrap"
             style={{ fontFamily: "Ropa Sans" }}
           >
             Platform

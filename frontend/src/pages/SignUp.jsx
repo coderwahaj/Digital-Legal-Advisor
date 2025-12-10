@@ -160,7 +160,7 @@ const SignUp = () => {
                   </svg>
                 </div>
                 <span
-                  className="text-[#44444E] text-sm sm: text-base lg:text-md font-normal whitespace-nowrap"
+                  className="text-[#44444E] text-sm sm:text-base lg:text-md font-normal whitespace-nowrap"
                   style={{ fontFamily: "Ropa Sans" }}
                 >
                   24/7 Support
@@ -184,7 +184,7 @@ const SignUp = () => {
                   </svg>
                 </div>
                 <span
-                  className="text-[#44444E] text-sm sm: text-base lg:text-md font-normal whitespace-nowrap"
+                  className="text-[#44444E] text-sm sm:text-base lg:text-md font-normal whitespace-nowrap"
                   style={{ fontFamily: "Ropa Sans" }}
                 >
                   Data Privacy
@@ -336,7 +336,7 @@ const SignUp = () => {
             {/* Continue with Google */}
             <button
               onClick={handleGoogleSignUp}
-              className="w-[95%] lg: w-[95%] bg-white border-2 border-gray-800 py-1.5 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-all flex items-center justify-center gap-3 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-[95%]  bg-white border-2 border-gray-800 py-1.5 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-all flex items-center justify-center gap-3 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ fontFamily: "Inter" }}
               disabled={isLoading}
             >
