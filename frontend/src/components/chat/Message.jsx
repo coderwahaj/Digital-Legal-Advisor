@@ -1,8 +1,11 @@
 import { ThumbsUp, ThumbsDown } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useState } from 'react';
 
-const Message = ({ message, isLatest, onFeedback }) => {
+const Message = ({ message, isLatest, onFeedback, onOpenFeedbackModal }) => {
   const { user } = useAuth();
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
 
   const UserAvatar = () => (
     <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-gray-300 flex-shrink-0 flex items-center justify-center border-2 border-gray-400">
@@ -21,6 +24,18 @@ const Message = ({ message, isLatest, onFeedback }) => {
     </div>
   );
 
+  const handleLike = () => {
+    setLiked(!liked);
+    if (disliked) setDisliked(false);
+    onFeedback?. ('like', message.id);
+  };
+
+  const handleDislike = () => {
+    setDisliked(! disliked);
+    if (liked) setLiked(false);
+    onFeedback?.('dislike', message.id);
+  };
+
   if (message.type === 'user') {
     return (
       <div className="flex gap-3 lg:gap-4 justify-end items-start">
@@ -29,10 +44,10 @@ const Message = ({ message, isLatest, onFeedback }) => {
           style={{ fontFamily: 'Noto Sans' }}
         >
           <p className="text-base lg:text-lg font-medium">
-            {message.content}
+            {message. content}
           </p>
         </div>
-        <UserAvatar/>
+        <UserAvatar />
       </div>
     );
   }
@@ -40,7 +55,7 @@ const Message = ({ message, isLatest, onFeedback }) => {
   // Bot message
   return (
     <div className="flex gap-3 lg:gap-4 items-start">
-      <UserAvatar/>
+      <UserAvatar />
       <div className="flex-1 max-w-2xl lg:max-w-3xl">
         {message.title && (
           <h3 
@@ -52,34 +67,49 @@ const Message = ({ message, isLatest, onFeedback }) => {
         )}
         <p 
           className="text-gray-900 text-lg lg:text-xl font-normal leading-relaxed whitespace-pre-wrap"
-          style={{ fontFamily: 'Noto Sans' }}
+          style={{ fontFamily:  'Noto Sans' }}
         >
-          {message.content}
+          {message. content}
         </p>
 
         {/* Feedback buttons - only show on latest bot message */}
         {isLatest && message.type === 'bot' && (
           <div className="flex items-center gap-3 lg:gap-5 mt-6 lg:mt-8">
             <button
-              onClick={() => onFeedback?. ('like', message.id)}
-              className="flex items-center gap-2 hover:opacity-70 transition-opacity"
+              onClick={handleLike}
+              className={`flex items-center gap-2 hover:opacity-70 transition-all p-2 rounded-lg ${
+                liked ? 'bg-green-100' : ''
+              }`}
               aria-label="Like response"
             >
-              <ThumbsUp size={24} className="text-gray-900 lg:w-7 lg:h-7" />
+              <ThumbsUp 
+                size={24} 
+                className={`lg:w-7 lg:h-7 transition-colors ${
+                  liked ? 'text-green-600 fill-green-600' : 'text-gray-900'
+                }`}
+              />
             </button>
             <button
-              onClick={() => onFeedback?.('dislike', message.id)}
-              className="flex items-center gap-2 hover:opacity-70 transition-opacity"
+              onClick={handleDislike}
+              className={`flex items-center gap-2 hover:opacity-70 transition-all p-2 rounded-lg ${
+                disliked ? 'bg-red-100' : ''
+              }`}
               aria-label="Dislike response"
             >
-              <ThumbsDown size={24} className="text-gray-900 lg:w-7 lg: h-7" />
+              <ThumbsDown 
+                size={24} 
+                className={`lg:w-7 lg:h-7 transition-colors ${
+                  disliked ? 'text-red-600 fill-red-600' : 'text-gray-900'
+                }`}
+              />
             </button>
-            <span 
-              className="text-gray-900 text-lg lg:text-xl font-medium"
-              style={{ fontFamily:  'Noto Sans' }}
+            <button
+              onClick={() => onOpenFeedbackModal?. ()}
+              className="text-gray-900 text-lg lg:text-xl font-medium hover:text-[#29473E] transition-colors cursor-pointer"
+              style={{ fontFamily: 'Noto Sans' }}
             >
-              Provide Feedback? 
-            </span>
+              Provide Feedback?
+            </button>
           </div>
         )}
       </div>

@@ -5,12 +5,14 @@ import PlatformSidebar from '@/components/shared/PlatformSidebar';
 import ChatHeader from '@/components/chat/ChatHeader';
 import ChatMessages from '@/components/chat/ChatMessages';
 import ChatInput from '@/components/chat/ChatInput';
+import FeedbackModal from '@/components/shared/FeedbackModal';
 
 const Platform = () => {
   const { user } = useAuth();
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
 
   const handleSendMessage = async (content) => {
     // Add user message
@@ -49,7 +51,16 @@ const Platform = () => {
   };
 
   const handleFeedback = (type, messageId) => {
-    console.log(`Feedback:  ${type} for message ${messageId}`);
+    console.log(`Feedback: ${type} for message ${messageId}`);
+    // Just toggle the button state, don't open modal
+  };
+
+  const handleOpenFeedbackModal = () => {
+    setIsFeedbackModalOpen(true);
+  };
+
+  const handleFeedbackSubmit = (feedbackData) => {
+    console.log('Feedback submitted:', feedbackData);
     // TODO: Send feedback to backend
   };
 
@@ -85,6 +96,7 @@ const Platform = () => {
           <ChatMessages 
             messages={messages} 
             onFeedback={handleFeedback}
+            onOpenFeedbackModal={handleOpenFeedbackModal}
           />
 
           {/* Loading Indicator */}
@@ -115,6 +127,13 @@ const Platform = () => {
           />
         </main>
       </div>
+      {/* Feedback Modal */}
+      <FeedbackModal
+        isOpen={isFeedbackModalOpen}
+        onClose={() => setIsFeedbackModalOpen(false)}
+        onSubmit={handleFeedbackSubmit}
+        feedbackType="chatbot"
+      />
     </div>
   );
 };
