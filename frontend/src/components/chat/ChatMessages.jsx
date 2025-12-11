@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Message from './Message';
 
-const ChatMessages = ({ messages, onFeedback }) => {
+const ChatMessages = ({ messages, onFeedback, onOpenFeedbackModal }) => {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -40,7 +40,7 @@ const ChatMessages = ({ messages, onFeedback }) => {
           </h2>
           <p 
             className="text-gray-600 text-sm lg:text-base"
-            style={{ fontFamily: 'Noto Sans' }}
+            style={{ fontFamily:  'Noto Sans' }}
           >
             Ask me anything about Pakistani legal matters
           </p>
@@ -58,6 +58,7 @@ const ChatMessages = ({ messages, onFeedback }) => {
             message={message}
             isLatest={index === messages. length - 1}
             onFeedback={onFeedback}
+            onOpenFeedbackModal={onOpenFeedbackModal}
           />
         ))}
         <div ref={messagesEndRef} />

@@ -4,10 +4,15 @@ import { useLegalPrecedents } from '@/hooks/useLegalPrecedents';
 import PlatformHeader from '@/components/shared/PlatformHeader';
 import PlatformSidebar from '@/components/shared/PlatformSidebar';
 import PrecedentRow from '@/components/precedents/PrecedentRow';
+import FeedbackModal from '@/components/shared/FeedbackModal';
 
 const LegalPrecedents = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
+
   const { precedents, isLoading, hasSearched, searchPrecedents, downloadJudgment } = useLegalPrecedents();
 
   const handleLogout = async () => {
@@ -29,6 +34,25 @@ const LegalPrecedents = () => {
 
   const handleFeedback = (type) => {
     console.log(`Feedback: ${type}`);
+    setIsFeedbackModalOpen(true);
+  };
+
+  const handleLike = () => {
+    setLiked(!liked);
+    if (disliked) setDisliked(false);
+  };
+
+  const handleDislike = () => {
+    setDisliked(! disliked);
+    if (liked) setLiked(false);
+  };
+
+  const handleOpenFeedbackModal = () => {
+    setIsFeedbackModalOpen(true);
+  };
+
+  const handleFeedbackSubmit = (feedbackData) => {
+    console.log('Feedback submitted:', feedbackData);
     // TODO: Send feedback to backend
   };
 
@@ -320,32 +344,54 @@ const LegalPrecedents = () => {
 
                 {/* Feedback Section */}
                 <div className="flex items-center justify-end gap-4 lg:gap-6 pt-6 border-t-2 border-gray-300">
-                  <button
-                    onClick={() => handleFeedback('like')}
-                    className="hover:opacity-70 transition-opacity p-2"
-                    aria-label="Like results"
-                  >
-                    <ThumbsUp size={24} className="text-gray-900" />
-                  </button>
-                  <button
-                    onClick={() => handleFeedback('dislike')}
-                    className="hover:opacity-70 transition-opacity p-2"
-                    aria-label="Dislike results"
-                  >
-                    <ThumbsDown size={24} className="text-gray-900" />
-                  </button>
-                  <span 
-                    className="text-gray-900 text-base lg:text-lg font-medium"
-                    style={{ fontFamily: 'Noto Sans' }}
-                  >
-                    Provide Feedback? 
-                  </span>
+                    <button
+                        onClick={handleLike}
+                        className={`hover:opacity-70 transition-all p-2 rounded-lg ${
+                        liked ? 'bg-green-100' : ''
+                        }`}
+                        aria-label="Like results"
+                    >
+                        <ThumbsUp 
+                        size={24} 
+                        className={`transition-colors ${
+                            liked ? 'text-green-600 fill-green-600' : 'text-gray-900'
+                        }`}
+                        />
+                    </button>
+                    <button
+                        onClick={handleDislike}
+                        className={`hover:opacity-70 transition-all p-2 rounded-lg ${
+                        disliked ? 'bg-red-100' : ''
+                        }`}
+                        aria-label="Dislike results"
+                    >
+                        <ThumbsDown 
+                        size={24} 
+                        className={`transition-colors ${
+                            disliked ? 'text-red-600 fill-red-600' : 'text-gray-900'
+                        }`}
+                        />
+                    </button>
+                    <button
+                        onClick={handleOpenFeedbackModal}
+                        className="text-gray-900 text-base lg:text-lg font-medium hover:text-[#29473E] transition-colors cursor-pointer"
+                        style={{ fontFamily: 'Noto Sans' }}
+                    >
+                        Provide Feedback?
+                    </button>
                 </div>
               </>
             )}
           </div>
         </main>
       </div>
+      {/* Feedback Modal */}
+      <FeedbackModal
+        isOpen={isFeedbackModalOpen}
+        onClose={() => setIsFeedbackModalOpen(false)}
+        onSubmit={handleFeedbackSubmit}
+        feedbackType="precedents"
+      />
     </div>
   );
 };

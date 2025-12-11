@@ -6,10 +6,11 @@ import SummarizerHeader from '@/components/summarizer/SummarizerHeader';
 import UploadArea from '@/components/summarizer/UploadArea';
 import ProcessingStatus from '@/components/summarizer/ProcessingStatus';
 import SummaryDisplay from '@/components/summarizer/SummaryDisplay';
+import FeedbackModal from '@/components/shared/FeedbackModal';
 
 const DocumentSummarizer = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const { isProcessing, summary, uploadedFile, uploadDocument, clearSummary } = useDocumentSummarizer();
 
   const handleFileUpload = (file) => {
@@ -19,6 +20,15 @@ const DocumentSummarizer = () => {
 
   const handleFeedback = (type) => {
     console.log(`Feedback: ${type}`);
+    // Just toggle the button state
+  };
+
+  const handleOpenFeedbackModal = () => {
+    setIsFeedbackModalOpen(true);
+  };
+
+  const handleFeedbackSubmit = (feedbackData) => {
+    console.log('Feedback submitted:', feedbackData);
     // TODO: Send feedback to backend
   };
 
@@ -69,6 +79,7 @@ const DocumentSummarizer = () => {
             <SummaryDisplay 
               summary={summary}
               onFeedback={handleFeedback}
+        onOpenFeedbackModal={handleOpenFeedbackModal}
             />
           )}
 
@@ -120,6 +131,13 @@ const DocumentSummarizer = () => {
           )}
         </main>
       </div>
+      {/* Feedback Modal */}
+      <FeedbackModal
+        isOpen={isFeedbackModalOpen}
+        onClose={() => setIsFeedbackModalOpen(false)}
+        onSubmit={handleFeedbackSubmit}
+        feedbackType="summarizer"
+      />
     </div>
   );
 };
